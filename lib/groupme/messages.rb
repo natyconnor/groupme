@@ -48,7 +48,7 @@ module GroupMe
         :file => Faraday::UploadIO.new(file, 'image/jpeg'),
         :access_token => @token
       }
-      post("/pictures", data)
+      post("/pictures", data).url
     end
 
   end

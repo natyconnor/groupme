@@ -34,7 +34,11 @@ module GroupMe
       def request(method, path, data={})
         if(path == "/pictures")
           res = connection("https://image.groupme.com").post "#{path}", data
-          return res.body.url
+          if res.status == 200 && !res.body.nil?
+            return res.body.payload
+          else
+            return res
+          end
         else
           res = connection.send(method, "v3/#{path}", data)
         end
