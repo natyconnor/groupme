@@ -32,7 +32,13 @@ module GroupMe
       end
 
       def request(method, path, data={})
-        res = connection.send(method, "v3/#{path}", data)
+        if(path == "/pictures")
+          res = connection("https://image.groupme.com").post "#{path}", data
+          return res.body.url
+        else
+          res = connection.send(method, "v3/#{path}", data)
+        end
+
         if res.status == 200 and !res.body.nil?
           return res.body.response
         else
@@ -43,8 +49,9 @@ module GroupMe
       # Returns a Faraday::Connection object
       #
       # @return [Faraday::Connection]
-      def connection
-        @connection ||= Faraday.new 'https://api.groupme.com/' do |f|
+      def connection(base='https://api.groupme.com/')
+        Faraday.new base do |f|
+          f.request :multipart
           f.request :json
           f.headers[:user_agent] = GroupMe::USER_AGENT
           f.headers["X-Access-Token"] = @token

@@ -38,5 +38,18 @@ module GroupMe
     end
     alias :message_count :messages_count
 
+    # Upload an image to GroupMe's image service
+    #
+    # @return String of image url 
+    # @see https://dev.groupme.com/docs/image_service
+    # @param file [String] path of image
+    def upload_image(file)
+      data = {
+        :file => Faraday::UploadIO.new(file, 'image/jpeg'),
+        :access_token => @token
+      }
+      post("/pictures", data)
+    end
+
   end
 end
