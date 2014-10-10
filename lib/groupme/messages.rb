@@ -25,8 +25,8 @@ module GroupMe
     # @return [Array<Hashie::Mash>] Array of hashes representing the messages
     # @see http://dev.groupme.com/docs/v3#messages_index
     # @param group_id [String, Integer] Id of the group
-    def messages(group_id)
-      get("/groups/#{group_id}/messages").messages
+    def messages(group_id, data={})
+      get("/groups/#{group_id}/messages", data).messages
     end
 
     # Get number of messages for a group

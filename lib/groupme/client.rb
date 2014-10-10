@@ -23,8 +23,8 @@ module GroupMe
 
     private
 
-      def get(path)
-        request(:get, path)
+      def get(path, data={})
+        request(:get, path, data)
       end
 
       def post(path, data={})
